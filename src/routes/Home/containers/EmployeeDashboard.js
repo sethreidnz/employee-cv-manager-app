@@ -29,6 +29,7 @@ class EmployeeDashboard extends Component {
     }
 
     const { employees } = this.props
+    debugger
     return (
       <div className='employee-dashboard col s12 m7'>
         <EmployeeList>
@@ -50,10 +51,10 @@ EmployeeDashboard.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  employees: state.employees.items,
-  hasLoaded: state.employees.hasLoaded,
-  hasError: state.employees.hasError,
-  error: state.employees.error
+  employees: state.employeeDashboard.items,
+  hasLoaded: state.employeeDashboard.hasLoaded,
+  hasError: state.employeeDashboard.hasError,
+  error: state.employeeDashboard.error
 })
 
 const mapDispatchToProps = (dispatch) => ({

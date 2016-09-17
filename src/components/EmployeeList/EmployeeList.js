@@ -13,7 +13,7 @@ const EmployeeList = ({ children }) => (
 )
 
 EmployeeList.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.shape(EmployeeSimlified))
+  children: PropTypes.array.isRequired
 }
 
 export default EmployeeList

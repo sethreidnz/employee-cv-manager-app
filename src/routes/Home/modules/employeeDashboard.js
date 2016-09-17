@@ -34,7 +34,7 @@ export const employeesErrorReceived = (error) => ({
 export const requestEmployees = () => {
   return (dispatch, getState) => {
     const state = getState()
-    const { hasLoaded, isFetching } = state.employees
+    const { hasLoaded, isFetching } = state.employeeDashboard
     if (hasLoaded || isFetching) return
 
     dispatch(employeesRequested())
@@ -96,7 +96,7 @@ const initialState = {
   error: null
 }
 
-export default function employeeReducer (state = initialState, action) {
+export default function employeeDashboardReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
