@@ -4,10 +4,14 @@ import './CoreLayout.scss'
 import '../../styles/core.scss'
 
 export const CoreLayout = ({ children }) => (
-  <div className='container main-content'>
+  <div>
     <Header />
-    <div className='row'>
-      {children}
+    <div className='container'>
+      <div className='row'>
+        <div className='  main-content'>
+          {children}
+        </div>
+      </div>
     </div>
   </div>
 )
