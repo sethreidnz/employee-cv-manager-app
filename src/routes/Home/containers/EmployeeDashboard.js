@@ -29,7 +29,7 @@ class EmployeeDashboard extends Component {
     }
 
     const { employees } = this.props
-    debugger
+    
     return (
       <div className='employee-dashboard col s12 m7'>
         <EmployeeList>
