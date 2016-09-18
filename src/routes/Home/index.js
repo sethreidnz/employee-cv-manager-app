@@ -1,6 +1,3 @@
-import EmployeeDashboard from './containers/EmployeeDashboard'
+import employeeDashboard from './containers/EmployeeDashboard'
 
-// Sync route definition
-export default {
-  component : EmployeeDashboard
-}
+export const EmployeeDashboard = employeeDashboard

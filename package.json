@@ -1,5 +1,5 @@
 {
-  "name": "react-redux-starter-kit",
+  "name": "employee-cv-manager-app",
   "version": "3.0.0-alpha.2",
   "description": "Get started with React, Redux, and React-Router!",
   "main": "index.js",
@@ -19,7 +19,10 @@
     "deploy": "better-npm-run deploy",
     "deploy:dev": "better-npm-run deploy:dev",
     "deploy:prod": "better-npm-run deploy:prod",
-    "codecov": "cat coverage/*/lcov.info | codecov"
+    "codecov": "cat coverage/*/lcov.info | codecov",
+    "publish": "npm run deploy && node bin/publish.js",
+    "publish:dev": "npm run deploy:dev && node bin/publish.js",
+    "publish:prod": "npm run deploy:prod && node bin/publish.js"
   },
   "betterScripts": {
     "compile": {
@@ -112,6 +115,7 @@
     "yargs": "^5.0.0"
   },
   "devDependencies": {
+    "azure-webpackage-deploy": "^1.0.4",
     "babel-eslint": "^6.0.0-beta.6",
     "babel-plugin-istanbul": "^2.0.1",
     "chai": "^3.4.1",

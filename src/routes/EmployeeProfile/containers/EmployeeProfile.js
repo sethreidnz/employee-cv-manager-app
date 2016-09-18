@@ -14,7 +14,6 @@ import { requestEmployee } from '../modules/employeeProfile'
 class EmployeeProfile extends Component {
   componentWillMount () {
     const { selectEmployee, params: { employeeId } } = this.props
-    
     selectEmployee(employeeId)
   }
   render () {

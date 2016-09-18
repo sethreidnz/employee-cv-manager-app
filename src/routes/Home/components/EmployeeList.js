@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react'
 
 // PropTypes
-import { EmployeeSimlified } from 'constants/PropTypes'
+// TODO fix this so taht propTypes work right
+// import { EmployeeSimlified } from 'constants/PropTypes'
 
 const EmployeeList = ({ children }) => (
   <div className='employee-list'>

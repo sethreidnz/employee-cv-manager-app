@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { EmployeeSimlified } from 'constants/PropTypes'
 
 // Components
-import { EmployeeList, EmployeeListItem } from 'components/EmployeeList'
+import { EmployeeList, EmployeeListItem } from '../components'
 import Spinner from 'components/Spinner'
 import Error from 'components/Error'
 
@@ -29,7 +29,7 @@ class EmployeeDashboard extends Component {
     }
 
     const { employees } = this.props
-    
+
     return (
       <div className='employee-dashboard col s12 m7'>
         <EmployeeList>
