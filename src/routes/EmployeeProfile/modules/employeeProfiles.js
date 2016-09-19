@@ -5,6 +5,8 @@ import { createSelector } from 'reselect'
 // Constants
 // ------------------------------------
 const EMPLOYEE_SELECTED = 'EMPLOYEE_SELECTED'
+const EMPLOYEE_REQUESTED = 'EMPLOYEE_REQUESTED'
+const EMPLOYEE_REQUEST_ABORTED = 'EMPLOYEE_FOUND_IN_STATE'
 const EMPLOYEE_RECEIVED = 'EMPLOYEE_RECEIVED'
 const EMPLOYEE_ERROR_RECEIVED = 'EMPLOYEE_ERROR_RECEIVED'
 
@@ -14,6 +16,15 @@ const EMPLOYEE_ERROR_RECEIVED = 'EMPLOYEE_ERROR_RECEIVED'
 export const employeeSelected = (employeeId) => ({
   type: EMPLOYEE_SELECTED,
   employeeId: employeeId
+})
+
+export const employeeReqeusted = (employeeId) => ({
+  type: EMPLOYEE_REQUESTED,
+  employeeId: employeeId
+})
+
+export const employeeRequestAborted = () => ({
+  type: EMPLOYEE_REQUEST_ABORTED
 })
 
 export const employeeReceived = (employee) => ({
@@ -26,26 +37,29 @@ export const employeeErrorReceived = (error) => ({
   error: error
 })
 
-/*  This is a thunk, meaning it is a function that immediately
-    returns a function for lazy evaluation. It is incredibly useful for
-    creating async actions, especially when combined with redux-thunk!
+const shouldFetchEmployee = (state) => {
+  const { isFetching } = state.employeeProfiles
+  const selectedEmployeeInState = selectEmployeeProfileFromState(state) != null
+  return !selectedEmployeeInState && !isFetching
+}
 
-    NOTE: This is solely for demonstration purposes. In a real application,
-    you'd probably want to dispatch an action of COUNTER_DOUBLE and let the
-    reducer take care of this logic.  */
 export const selectEmployee = (employeeId) => {
   return (dispatch, getState) => {
-    const state = getState()
-    const { hasLoaded, isFetching } = state.employeeProfiles
-    if (isFetching || (hasLoaded && employeeId === state.employeeProfile.id)) return
-
     dispatch(employeeSelected(employeeId))
+    const state = getState()
+    const selectedEmployeeInState = selectEmployeeProfileFromState(state)
+    if (selectedEmployeeInState) {
+      dispatch(employeeRequestAborted())
+    }
+    if (!shouldFetchEmployee(state)) return
+    dispatch(employeeReqeusted(employeeId))
     return getEmployee(employeeId).then(
             (employee) => dispatch(employeeReceived(employee)),
             (error) => dispatch(employeeErrorReceived(error))
         )
   }
 }
+
 
 // ------------------------------------
 // Action Handlers
@@ -55,7 +69,26 @@ const employeeSelectedHandler = (state, action) => {
   return Object.assign({}, state, {
     selectedEmployeeId: action.employeeId,
     hasLoaded: false,
+    isFetching: false,
+    hasError: false,
+    error: null
+  })
+}
+
+const employeeRequestedHandler = (state, action) => {
+  return Object.assign({}, state, {
+    selectedEmployeeId: action.employeeId,
+    hasLoaded: false,
     isFetching: true,
+    hasError: false,
+    error: null
+  })
+}
+
+const employeeRequestAbortedHandler = (state, action) => {
+  return Object.assign({}, state, {
+    hasLoaded: true,
+    isFetching: false,
     hasError: false,
     error: null
   })
@@ -102,6 +135,8 @@ const employeeSelectedErrorHandler = (state, action) => {
 
 const ACTION_HANDLERS = {
   [EMPLOYEE_SELECTED] : employeeSelectedHandler,
+  [EMPLOYEE_REQUESTED]: employeeRequestedHandler,
+  [EMPLOYEE_REQUEST_ABORTED]: employeeRequestAbortedHandler,
   [EMPLOYEE_RECEIVED] : employeeRecievedHandler,
   [EMPLOYEE_ERROR_RECEIVED] : employeeSelectedErrorHandler
 }

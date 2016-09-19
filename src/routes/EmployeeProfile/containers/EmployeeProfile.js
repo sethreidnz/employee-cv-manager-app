@@ -21,7 +21,7 @@ import {
 class EmployeeProfile extends Component {
   componentWillMount () {
     const { selectEmployee, selectedEmployeeId, params: { employeeId } } = this.props
-    if (!selectedEmployeeId) {
+    if (!selectedEmployeeId || selectedEmployeeId !== employeeId) {
       selectEmployee(employeeId)
     }
   }
