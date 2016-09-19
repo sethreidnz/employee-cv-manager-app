@@ -3,18 +3,20 @@ import Header from '../../components/Header'
 import './CoreLayout.scss'
 import '../../styles/core.scss'
 
-export const CoreLayout = ({ children }) => (
-  <div>
-    <Header />
-    <div className='container'>
-      <div className='row'>
-        <div className='  main-content'>
-          {children}
+export const CoreLayout = (props) => {
+  return (
+    <div>
+      <Header />
+      <div className='container'>
+        <div className='row'>
+          <div className='  main-content'>
+            {props.children}
+          </div>
         </div>
       </div>
     </div>
-  </div>
 )
+}
 
 CoreLayout.propTypes = {
   children : React.PropTypes.element.isRequired

@@ -1,3 +1,3 @@
-import employeeDashboard from './containers/EmployeeDashboard'
+import EmployeeDashboard from './containers/EmployeeDashboard'
 
-export const EmployeeDashboard = employeeDashboard
+export default EmployeeDashboard

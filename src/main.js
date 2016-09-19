@@ -16,13 +16,10 @@ const store = createStore(initialState)
 const MOUNT_NODE = document.getElementById('root')
 
 let render = () => {
-  const routes = require('./routes/index').default(store)
-
   ReactDOM.render(
     <AppContainer
       store={store}
       history={browserHistory}
-      routes={routes}
     />,
     MOUNT_NODE
   )
