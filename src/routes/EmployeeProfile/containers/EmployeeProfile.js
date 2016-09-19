@@ -8,13 +8,22 @@ import { Employee } from 'constants/PropTypes'
 import Spinner from 'components/Spinner'
 import Error from 'components/Error'
 
-// Actions
-import { requestEmployee } from '../modules/employeeProfile'
+// Actions and Selectors
+import {
+  selectEmployee,
+  selectEmployeeProfileFromState,
+  getSelectedEmployeeId,
+  employeeProfileHasError,
+  employeeProfileHasLoaded,
+  employeeProfileError
+} from '../modules/employeeProfiles'
 
 class EmployeeProfile extends Component {
   componentWillMount () {
-    const { selectEmployee, params: { employeeId } } = this.props
-    selectEmployee(employeeId)
+    const { selectEmployee, selectedEmployeeId, params: { employeeId } } = this.props
+    if (!selectedEmployeeId) {
+      selectEmployee(employeeId)
+    }
   }
   render () {
     const { hasLoaded } = this.props
@@ -81,7 +90,7 @@ EmployeeProfile.propTypes = {
     employeeId: PropTypes.string.isRequired
   }),
   selectEmployee: PropTypes.func.isRequired,
-  employeeId: PropTypes.string.isRequired,
+  selectedEmployeeId: PropTypes.string,
   employee: PropTypes.shape(Employee),
   hasLoaded: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
@@ -89,15 +98,15 @@ EmployeeProfile.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  employeeId : ownProps.params.employeeId,
-  employee: state.employeeProfile.item,
-  hasLoaded: state.employeeProfile.hasLoaded,
-  hasError: state.employeeProfile.hasError,
-  error: state.employeeProfile.error
+  selectedEmployeeId : getSelectedEmployeeId(state),
+  employee: selectEmployeeProfileFromState(state),
+  hasLoaded: employeeProfileHasLoaded(state),
+  hasError: employeeProfileHasError(state),
+  error: employeeProfileError(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  selectEmployee: (employeeId) => dispatch(requestEmployee(employeeId))
+  selectEmployee: (employeeId) => dispatch(selectEmployee(employeeId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmployeeProfile)

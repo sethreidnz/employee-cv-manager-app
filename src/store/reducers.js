@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
 import employeeDashboard from 'routes/Home/modules/employeeDashboard'
-import employeeProfile from 'routes/EmployeeProfile/modules/employeeProfile'
+import employeeProfiles from 'routes/EmployeeProfile/modules/employeeProfiles'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
     employeeDashboard,
-    employeeProfile,
+    employeeProfiles,
     ...asyncReducers
   })
 }

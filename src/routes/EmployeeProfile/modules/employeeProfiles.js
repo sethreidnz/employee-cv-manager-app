@@ -1,4 +1,5 @@
 import { getEmployee } from 'api/employees'
+import { createSelector } from 'reselect'
 
 // ------------------------------------
 // Constants
@@ -32,10 +33,10 @@ export const employeeErrorReceived = (error) => ({
     NOTE: This is solely for demonstration purposes. In a real application,
     you'd probably want to dispatch an action of COUNTER_DOUBLE and let the
     reducer take care of this logic.  */
-export const requestEmployee = (employeeId) => {
+export const selectEmployee = (employeeId) => {
   return (dispatch, getState) => {
     const state = getState()
-    const { hasLoaded, isFetching } = state.employeeProfile
+    const { hasLoaded, isFetching } = state.employeeProfiles
     if (isFetching || (hasLoaded && employeeId === state.employeeProfile.id)) return
 
     dispatch(employeeSelected(employeeId))
@@ -52,7 +53,7 @@ export const requestEmployee = (employeeId) => {
 // ------------------------------------
 const employeeSelectedHandler = (state, action) => {
   return Object.assign({}, state, {
-    item: null,
+    selectedEmployeeId: action.employeeId,
     hasLoaded: false,
     isFetching: true,
     hasError: false,
@@ -61,8 +62,26 @@ const employeeSelectedHandler = (state, action) => {
 }
 
 const employeeRecievedHandler = (state, action) => {
+  const employeeProfiles = state.items
+  const recievedEmployeeIndex = employeeProfiles.findIndex((employee) => {
+    return employee.id === action.employee.id
+  })
+  let newEmployeeProfileList
+  if (recievedEmployeeIndex >= 0) {
+    newEmployeeProfileList = [
+      ...employeeProfiles.slice(0, recievedEmployeeIndex),
+      action.employee,
+      ...employeeProfiles.slice(recievedEmployeeIndex + 1, employeeProfiles.length)
+    ]
+  } else {
+    newEmployeeProfileList = [
+      ...employeeProfiles,
+      action.employee
+    ]
+  }
   return Object.assign({}, state, {
-    item: action.employee,
+    items: newEmployeeProfileList,
+    selectedEmployeeId: action.employee ? action.employee.id : null,
     hasLoaded: true,
     isFetching: false,
     hasError: false,
@@ -72,7 +91,8 @@ const employeeRecievedHandler = (state, action) => {
 
 const employeeSelectedErrorHandler = (state, action) => {
   return Object.assign({}, state, {
-    item: null,
+    items: [],
+    selectedEmployeeId: null,
     hasLoaded: true,
     isFetching: false,
     hasError: true,
@@ -87,17 +107,38 @@ const ACTION_HANDLERS = {
 }
 
 // ------------------------------------
+// Selectors
+// ------------------------------------
+export const selectEmployeeProfiles = (state) => state.employeeProfiles.items
+export const getSelectedEmployeeId = (state) => state.employeeProfiles.selectedEmployeeId
+export const employeeProfileHasError = (state) => state.employeeProfiles.hasError
+export const employeeProfileHasLoaded = (state) => state.employeeProfiles.hasLoaded
+export const employeeProfileError = (state) => state.employeeProfiles.error
+
+export const selectEmployeeProfileFromState = createSelector(
+  selectEmployeeProfiles,
+  getSelectedEmployeeId,
+  (profiles, selectedEmployeeId) => {
+    if (!selectedEmployeeId) return null
+    const profile = profiles.filter(profile => profile.id === selectedEmployeeId)
+    if (profile.length <= 0) return null
+    return profile[0]
+  }
+)
+
+// ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
-  item: null,
+  items: [],
+  selectedEmployeeId: null,
   hasLoaded: false,
   isFetching: false,
   hasError: false,
   error: null
 }
 
-export default function employeeProfileReducer (state = initialState, action) {
+export default function employeeProfilesReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
