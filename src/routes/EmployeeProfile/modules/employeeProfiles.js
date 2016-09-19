@@ -60,7 +60,6 @@ export const selectEmployee = (employeeId) => {
   }
 }
 
-
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
