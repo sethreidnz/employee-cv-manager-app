@@ -8,7 +8,7 @@ const EmployeeList = ({ children }) => (
   <div className='employee-list'>
     <h3>Current Employees</h3>
     <ul className='collection'>
-            {children}
+      {children}
     </ul>
   </div>
 )

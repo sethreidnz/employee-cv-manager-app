@@ -1,9 +1,18 @@
 import React, { PropTypes } from 'react'
-import { reduxForm } from 'redux-form'
+import { reduxForm, Field } from 'redux-form'
 
 import { EMPLOYEE_PROFILE_FORM_NAME } from 'constants/formContants'
 
-const EmployeeDetailsEdit = ({ handleSubmit, firstName, lastName, role, team, biography, avatarUrl }) => (
+const EmployeeDetailsEdit = ({
+  handleSubmit,
+  firstName,
+  lastName,
+  role,
+  team,
+  biography,
+  avatarUrl,
+  initialValues
+}) => (
   <form onSubmit={handleSubmit} className='row'>
     <div className='profile'>
       <div className='col s12 m4'>
@@ -11,21 +20,20 @@ const EmployeeDetailsEdit = ({ handleSubmit, firstName, lastName, role, team, bi
           <img src={avatarUrl} alt='' />
         </div>
         <div className='col s12 m6 profile-details'>
-          <h5 className='profile-name'>{firstName} {lastName}</h5>
+          <label>First Name</label>
+          <Field name='firstName' component='input' type='text' placeholder='First Name' />
+          <label>Last Name</label>
+          <Field name='lastName' component='input' type='text' placeholder='Last Name' />
           <label>Role</label>
-          edit
+          <Field name='role' component='input' type='text' placeholder='Role' />
           <label>Team</label>
-          edit
-          <label htmlFor='lastName'>Team</label>
-          edit
+          <Field name='team' component='input' type='text' placeholder='Team' />
         </div>
       </div>
     </div>
     <div className='col s12 m8'>
       <h5>Biography</h5>
-      <p>
-        edit
-      </p>
+      <Field name='biography' component='input' type='textarea' placeholder='Biography' />
     </div>
   </form>
 )
@@ -37,7 +45,8 @@ EmployeeDetailsEdit.propTypes = {
   role: PropTypes.string.isRequired,
   team: PropTypes.string.isRequired,
   biography: PropTypes.string.isRequired,
-  avatarUrl: PropTypes.string.isRequired
+  avatarUrl: PropTypes.string.isRequired,
+  initialValues: PropTypes.object
 }
 
 export default reduxForm({

@@ -195,7 +195,7 @@ export const getEmployees = () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(employeesSimplifiedDataList)
-    }, 3000)
+    }, 1000)
   })
 }
 
@@ -207,7 +207,7 @@ export const getEmployee = (employeeId) => {
         return value && (value.id === employeeId)
       })[0]
       resolve(employee)
-    }, 3000)
+    }, 1000)
   })
 }
 
@@ -216,6 +216,6 @@ export const putEmployee = (updatedEmployee) => {
     let employee
     setTimeout(() => {
       resolve(updatedEmployee.id)
-    }, 3000)
+    }, 1000)
   })
 }

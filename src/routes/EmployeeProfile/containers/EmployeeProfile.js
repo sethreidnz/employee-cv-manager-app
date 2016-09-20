@@ -29,7 +29,8 @@ class EmployeeProfile extends Component {
       selectEmployee(employeeId)
     }
   }
-  _renderEmployeeDetails = (editModeEnabled, firstName, lastName, role, team, biography, avatar) => {
+  _renderEmployeeDetails = (editModeEnabled, employee) => {
+    const { firstName, lastName, role, team, biography, avatar } = employee
     if (!editModeEnabled) {
       return (
         <EmployeeDetails
@@ -41,6 +42,7 @@ class EmployeeProfile extends Component {
           avatarUrl={avatar} />
         )
     }
+    debugger
     return (
       <EmployeeDetailsEdit
         firstName={firstName}
@@ -48,7 +50,8 @@ class EmployeeProfile extends Component {
         role={role}
         biography={biography}
         team={team}
-        avatarUrl={avatar} />
+        avatarUrl={avatar}
+        initialValues={employee} />
     )
   }
   _renderControls = (editModeEnabled, toggleEditMode, updateEmployee) => {
@@ -86,22 +89,21 @@ class EmployeeProfile extends Component {
       return <Error error={error} />
     }
 
-    // deconstruct the employee object for easier rendering
-    const { employee: { firstName, lastName, role, team, biography, avatar, keySkills, recentProjects } } = this.props
+    const { employee } = this.props
     const { editingEnabled, toggleEditMode, updateEmployee } = this.props
 
     return (
       <div>
         {this._renderControls(editingEnabled, toggleEditMode, updateEmployee)}
         <div className='row'>
-          { this._renderEmployeeDetails(editingEnabled, firstName, lastName, role, team, biography, avatar) }
+          { this._renderEmployeeDetails(editingEnabled, employee) }
         </div>
         <div className='row'>
           <div className='col s12 m6'>
-            <KeySkills keySkills={keySkills} />
+            <KeySkills keySkills={employee.keySkills} />
           </div>
           <div className='col s12 m6'>
-            <RecentProjects recentProjects={recentProjects} />
+            <RecentProjects recentProjects={employee.recentProjects} />
           </div>
         </div>
       </div>

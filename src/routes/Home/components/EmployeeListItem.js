@@ -9,7 +9,7 @@ const EmployeeListItem = ({ employee }) => (
     <img src={employee.avatar} alt={employee.name} className='circle' />
     <span className='title'>{employee.firstName} {employee.lastName}</span>
     <p>{employee.role} <br />
-    {employee.team}
+      {employee.team}
     </p>
     <Link to={'/employee/' + employee.id} className='secondary-content btn black'>
       <i className='material-icons left'>description</i>
