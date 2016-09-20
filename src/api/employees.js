@@ -210,3 +210,12 @@ export const getEmployee = (employeeId) => {
     }, 3000)
   })
 }
+
+export const putEmployee = (updatedEmployee) => {
+  return new Promise((resolve) => {
+    let employee
+    setTimeout(() => {
+      resolve(updatedEmployee.id)
+    }, 3000)
+  })
+}

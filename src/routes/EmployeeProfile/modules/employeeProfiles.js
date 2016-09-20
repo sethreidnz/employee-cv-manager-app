@@ -1,4 +1,4 @@
-import { getEmployee } from 'api/employees'
+import { getEmployee, putEmployee } from 'api/employees'
 import { createSelector } from 'reselect'
 
 // ------------------------------------
@@ -10,6 +10,9 @@ const EMPLOYEE_REQUEST_ABORTED = 'EMPLOYEE_FOUND_IN_STATE'
 const EMPLOYEE_RECEIVED = 'EMPLOYEE_RECEIVED'
 const EMPLOYEE_ERROR_RECEIVED = 'EMPLOYEE_ERROR_RECEIVED'
 const EMPLOYEE_EDIT_MODE_TOGGLED = 'EMPLOYEE_EDIT_MODE_TOGGLED'
+const EMPLOYEE_UPDATE_REQUESTED = 'EMPLOYEE_UPDATE_REQUESTED'
+const EMPLOYEE_UPDATE_SUCCEEDED = 'EMPLOYEE_UPDATE_SUCCEEDED'
+const EMPLOYEE_UPDATE_ERROR_RECIEVED = 'EMPLOYEE_UPDATE_ERROR_RECIEVED'
 
 // ------------------------------------
 // Actions
@@ -42,6 +45,21 @@ export const employeeEditModeToggled = () => ({
   type: EMPLOYEE_EDIT_MODE_TOGGLED
 })
 
+export const employeeUpdateRequested = (updatedEmployee) => ({
+  type: EMPLOYEE_UPDATE_REQUESTED,
+  updatedEmployee: updatedEmployee
+})
+
+export const employeeUpdateSucceeded = (employeeId) => ({
+  type: EMPLOYEE_UPDATE_SUCCEEDED,
+  updatedEmployeeId: employeeId
+})
+
+export const employeeUpdateErrorRecieved = (error) => ({
+  type: EMPLOYEE_UPDATE_ERROR_RECIEVED,
+  error: error
+})
+
 const shouldFetchEmployee = (state) => {
   const { isFetching } = state.employeeProfiles
   const selectedEmployeeInState = selectEmployeeProfileFromState(state) != null
@@ -61,6 +79,16 @@ export const selectEmployee = (employeeId) => {
     return getEmployee(employeeId).then(
             (employee) => dispatch(employeeReceived(employee)),
             (error) => dispatch(employeeErrorReceived(error))
+        )
+  }
+}
+
+export const updateEmployee = (updatedEmployee) => {
+  return (dispatch, getState) => {
+    dispatch(employeeUpdateRequested())
+    return putEmployee(updatedEmployee).then(
+            (employee) => dispatch(employeeUpdateSucceeded(employee)),
+            (error) => dispatch(employeeUpdateErrorRecieved(error))
         )
   }
 }

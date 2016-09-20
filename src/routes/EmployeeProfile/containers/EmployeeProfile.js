@@ -12,6 +12,7 @@ import { EmployeeDetails, EmployeeDetailsEdit, KeySkills, RecentProjects } from 
 // Actions and Selectors
 import {
   selectEmployee,
+  updateEmployee,
   selectEmployeeProfileFromState,
   getSelectedEmployeeId,
   employeeProfileHasError,
@@ -50,17 +51,31 @@ class EmployeeProfile extends Component {
         avatarUrl={avatar} />
     )
   }
-  _renderSecondaryContent = ({ keySkills, recentProjects }) => (
-    <div className='row'>
-      <div className='col s12 m6'>
-        <KeySkills keySkills={keySkills} />
+  _renderControls = (editModeEnabled, toggleEditMode, updateEmployee) => {
+    let controlButtons
+    if (editModeEnabled) {
+      controlButtons = (
+        <div>
+          <a onClick={updateEmployee} className='btn'>Save</a>
+          <a onClick={toggleEditMode} className='btn'>Cancel</a>
+        </div>
+      )
+    } else {
+      controlButtons = (
+        <div>
+          <a onClick={toggleEditMode} className='btn'>Edit</a>
+        </div>
+      )
+    }
+    return (
+      <div className='profile-controls row'>
+        <div className='col m12'>
+          {controlButtons}
+        </div>
       </div>
-      <div className='col s12 m6'>
-        <RecentProjects recentProjects={recentProjects} />
-      </div>
-    </div>
-  )
-  render () {
+    )
+  }
+  render = () => {
     const { hasLoaded } = this.props
     if (!hasLoaded) {
       return <Spinner />
@@ -73,15 +88,11 @@ class EmployeeProfile extends Component {
 
     // deconstruct the employee object for easier rendering
     const { employee: { firstName, lastName, role, team, biography, avatar, keySkills, recentProjects } } = this.props
-    const { editingEnabled, toggleEditMode } = this.props
+    const { editingEnabled, toggleEditMode, updateEmployee } = this.props
 
     return (
       <div>
-        <div className='profile-controls row'>
-          <div className='col m12'>
-            <a onClick={toggleEditMode} className='btn'>Edit</a>
-          </div>
-        </div>
+        {this._renderControls(editingEnabled, toggleEditMode, updateEmployee)}
         <div className='row'>
           { this._renderEmployeeDetails(editingEnabled, firstName, lastName, role, team, biography, avatar) }
         </div>
@@ -103,6 +114,7 @@ EmployeeProfile.propTypes = {
     employeeId: PropTypes.string.isRequired
   }),
   selectEmployee: PropTypes.func.isRequired,
+  updateEmployee: PropTypes.func.isRequired,
   toggleEditMode: PropTypes.func.isRequired,
   selectedEmployeeId: PropTypes.string,
   employee: PropTypes.shape(Employee),
@@ -123,7 +135,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   selectEmployee: (employeeId) => dispatch(selectEmployee(employeeId)),
-  toggleEditMode: (employeeId) => dispatch(employeeEditModeToggled())
+  toggleEditMode: (employeeId) => dispatch(employeeEditModeToggled()),
+  updateEmployee: (updatedEmployee) => dispatch(updateEmployee())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmployeeProfile)
