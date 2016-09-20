@@ -7,6 +7,7 @@ import { Employee } from 'constants/PropTypes'
 // Components
 import Spinner from 'components/Spinner'
 import Error from 'components/Error'
+import { EmployeeDetails, KeySkills, RecentProjects } from '../components'
 
 // Actions and Selectors
 import {
@@ -40,45 +41,22 @@ class EmployeeProfile extends Component {
     const { employee: { firstName, lastName, role, team, biography, avatar, keySkills, recentProjects } } = this.props
     return (
       <div>
-        <div className='col s12 m4'>
-          <div className='row'>
-            <div className='profile'>
-              <div className='col s12 m6 profile-picture'>
-                <img src={avatar} alt='' />
-              </div>
-              <div className='col s12 m6 profile-details'>
-                <h5 className='profile-name'>{firstName} {lastName}</h5>
-                <label>Role</label>
-                <span className='profile-role'>{role}</span>
-                <label>Team</label>
-                <span className='profile-team'>{team}</span>
-              </div>
-            </div>
-          </div>
-          <div className='row'>
-            <div className='profile'>
-              <div className='col s12 m12 profile-details'>
-                <h5 className='profile-name'>Key Skills and Technologies</h5>
-                <ul className='collection'>
-                    {keySkills.map((skill) => (
-                      <li key={skill.name} className='collection-item'>{skill.name}</li>
-                    ))}
-                </ul>
-              </div>
-            </div>
-          </div>
+        <div className='row'>
+          <EmployeeDetails
+            firstName={firstName}
+            lastName={lastName}
+            role={role}
+            biography={biography}
+            team={team}
+            avatarUrl={avatar} />
         </div>
-        <div className='col s12 m8'>
-          <h5>Biography</h5>
-          <p>
-            {biography}
-          </p>
-          <h5>Recent Projects</h5>
-          <ul className='collection'>
-            {recentProjects.map((project) => (
-              <li key={project.name} className='collection-item'>{project.name}</li>
-            ))}
-          </ul>
+        <div className='row'>
+          <div className='col s12 m6'>
+            <KeySkills keySkills={keySkills} />
+          </div>
+          <div className='col s12 m6'>
+            <RecentProjects recentProjects={recentProjects} />
+          </div>
         </div>
       </div>
     )

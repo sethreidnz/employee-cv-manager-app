@@ -1,11 +1,14 @@
 import { combineReducers } from 'redux'
+import { reducer as formReducer } from 'redux-form'
 import employeeDashboard from 'routes/Home/modules/employeeDashboard'
 import employeeProfiles from 'routes/EmployeeProfile/modules/employeeProfiles'
+
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
     employeeDashboard,
     employeeProfiles,
+    formReducer,
     ...asyncReducers
   })
 }
