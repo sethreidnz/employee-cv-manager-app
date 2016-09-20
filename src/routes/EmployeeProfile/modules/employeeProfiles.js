@@ -9,6 +9,7 @@ const EMPLOYEE_REQUESTED = 'EMPLOYEE_REQUESTED'
 const EMPLOYEE_REQUEST_ABORTED = 'EMPLOYEE_FOUND_IN_STATE'
 const EMPLOYEE_RECEIVED = 'EMPLOYEE_RECEIVED'
 const EMPLOYEE_ERROR_RECEIVED = 'EMPLOYEE_ERROR_RECEIVED'
+const EMPLOYEE_EDIT_MODE_TOGGLED = 'EMPLOYEE_EDIT_MODE_TOGGLED'
 
 // ------------------------------------
 // Actions
@@ -35,6 +36,10 @@ export const employeeReceived = (employee) => ({
 export const employeeErrorReceived = (error) => ({
   type: EMPLOYEE_ERROR_RECEIVED,
   error: error
+})
+
+export const employeeEditModeToggled = () => ({
+  type: EMPLOYEE_EDIT_MODE_TOGGLED
 })
 
 const shouldFetchEmployee = (state) => {
@@ -132,12 +137,19 @@ const employeeSelectedErrorHandler = (state, action) => {
   })
 }
 
+const employeeEditModeToggledHandler = (state, action) => {
+  return Object.assign({}, state, {
+    editModeEnabled: !state.editModeEnabled
+  })
+}
+
 const ACTION_HANDLERS = {
   [EMPLOYEE_SELECTED] : employeeSelectedHandler,
   [EMPLOYEE_REQUESTED]: employeeRequestedHandler,
   [EMPLOYEE_REQUEST_ABORTED]: employeeRequestAbortedHandler,
   [EMPLOYEE_RECEIVED] : employeeRecievedHandler,
-  [EMPLOYEE_ERROR_RECEIVED] : employeeSelectedErrorHandler
+  [EMPLOYEE_ERROR_RECEIVED] : employeeSelectedErrorHandler,
+  [EMPLOYEE_EDIT_MODE_TOGGLED]: employeeEditModeToggledHandler
 }
 
 // ------------------------------------
@@ -148,6 +160,7 @@ export const getSelectedEmployeeId = (state) => state.employeeProfiles.selectedE
 export const employeeProfileHasError = (state) => state.employeeProfiles.hasError
 export const employeeProfileHasLoaded = (state) => state.employeeProfiles.hasLoaded
 export const employeeProfileError = (state) => state.employeeProfiles.error
+export const employeeEditModeIsEnabled = (state) => state.employeeProfiles.editModeEnabled
 
 export const selectEmployeeProfileFromState = createSelector(
   selectEmployeeProfiles,
@@ -169,7 +182,8 @@ const initialState = {
   hasLoaded: false,
   isFetching: false,
   hasError: false,
-  error: null
+  error: null,
+  editModeEnabled: false
 }
 
 export default function employeeProfilesReducer (state = initialState, action) {
