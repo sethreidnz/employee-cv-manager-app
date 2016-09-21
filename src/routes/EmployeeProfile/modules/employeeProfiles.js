@@ -9,7 +9,6 @@ const EMPLOYEE_REQUESTED = 'EMPLOYEE_REQUESTED'
 const EMPLOYEE_REQUEST_ABORTED = 'EMPLOYEE_FOUND_IN_STATE'
 const EMPLOYEE_RECEIVED = 'EMPLOYEE_RECEIVED'
 const EMPLOYEE_ERROR_RECEIVED = 'EMPLOYEE_ERROR_RECEIVED'
-const EMPLOYEE_EDIT_MODE_TOGGLED = 'EMPLOYEE_EDIT_MODE_TOGGLED'
 const EMPLOYEE_UPDATE_REQUESTED = 'EMPLOYEE_UPDATE_REQUESTED'
 const EMPLOYEE_UPDATE_SUCCEEDED = 'EMPLOYEE_UPDATE_SUCCEEDED'
 const EMPLOYEE_UPDATE_ERROR_RECIEVED = 'EMPLOYEE_UPDATE_ERROR_RECIEVED'
@@ -39,10 +38,6 @@ export const employeeReceived = (employee) => ({
 export const employeeErrorReceived = (error) => ({
   type: EMPLOYEE_ERROR_RECEIVED,
   error: error
-})
-
-export const employeeEditModeToggled = () => ({
-  type: EMPLOYEE_EDIT_MODE_TOGGLED
 })
 
 export const employeeUpdateRequested = (updatedEmployee) => ({
@@ -165,19 +160,12 @@ const employeeSelectedErrorHandler = (state, action) => {
   })
 }
 
-const employeeEditModeToggledHandler = (state, action) => {
-  return Object.assign({}, state, {
-    editModeEnabled: !state.editModeEnabled
-  })
-}
-
 const ACTION_HANDLERS = {
   [EMPLOYEE_SELECTED] : employeeSelectedHandler,
   [EMPLOYEE_REQUESTED]: employeeRequestedHandler,
   [EMPLOYEE_REQUEST_ABORTED]: employeeRequestAbortedHandler,
   [EMPLOYEE_RECEIVED] : employeeRecievedHandler,
-  [EMPLOYEE_ERROR_RECEIVED] : employeeSelectedErrorHandler,
-  [EMPLOYEE_EDIT_MODE_TOGGLED]: employeeEditModeToggledHandler
+  [EMPLOYEE_ERROR_RECEIVED] : employeeSelectedErrorHandler
 }
 
 // ------------------------------------
