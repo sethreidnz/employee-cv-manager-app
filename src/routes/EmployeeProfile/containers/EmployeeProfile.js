@@ -40,13 +40,22 @@ class EmployeeProfile extends Component {
     error: PropTypes.string,
     editingEnabled: PropTypes.bool
   }
+
   componentWillMount () {
     const { selectEmployee, selectedEmployeeId, params: { employeeId } } = this.props
     if (!selectedEmployeeId || selectedEmployeeId !== employeeId) {
       selectEmployee(employeeId)
     }
   }
-  _renderEmployeeDetails = (employee, editModeEnabled, toggleEditMode, updateEmployee) => {
+
+  onUpdateEmployee = (updatedEmployee) => {
+    const { employee, updateEmployee } = this.props
+    const newEmployee = Object.assign({}, employee, updatedEmployee)
+    updateEmployee(newEmployee)
+    this._toggleEditMode()
+  }
+
+  _renderEmployeeDetails = (employee, editModeEnabled, toggleEditMode) => {
     const { firstName, lastName, role, team, biography, avatar } = employee
     if (!editModeEnabled) {
       return (
@@ -60,12 +69,11 @@ class EmployeeProfile extends Component {
           toggleEditMode={toggleEditMode} />
         )
     }
-    debugger
     return (
       <EmployeeDetailsEdit
         avatarUrl={avatar}
         initialValues={employee}
-        handleSubmit={updateEmployee}
+        onSubmit={this.onUpdateEmployee}
         toggleEditMode={toggleEditMode} />
     )
   }
@@ -86,12 +94,11 @@ class EmployeeProfile extends Component {
     }
 
     const { employee } = this.props
-    const { updateEmployee } = this.props
     const { editModeEnabled } = this.state
     return (
       <div>
         <div className='row'>
-          { this._renderEmployeeDetails(employee, editModeEnabled, this._toggleEditMode, updateEmployee) }
+          { this._renderEmployeeDetails(employee, editModeEnabled, this._toggleEditMode) }
         </div>
         <div className='row'>
           <div className='col s12 m6'>
@@ -116,7 +123,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   selectEmployee: (employeeId) => dispatch(selectEmployee(employeeId)),
-  updateEmployee: (updatedEmployee) => dispatch(updateEmployee())
+  updateEmployee: (updatedEmployee) => dispatch(updateEmployee(updatedEmployee))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmployeeProfile)

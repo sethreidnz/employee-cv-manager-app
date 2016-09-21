@@ -17,18 +17,18 @@ const EmployeeDetailsEdit = ({
         </div>
         <div className='col s12 m6 profile-details'>
           <label>First Name</label>
-          <input name='firstName' component='input' type='text' placeholder='First Name' {...firstName} />
+          <input name='firstName' type='text' placeholder='First Name' {...firstName} />
           <label>Last Name</label>
-          <input name='lastName' component='input' type='text' placeholder='Last Name' {...lastName} />
+          <input name='lastName' type='text' placeholder='Last Name' {...lastName} />
           <label>Role</label>
-          <input name='role' component='input' type='text' placeholder='Role' {...role} />
+          <input name='role' type='text' placeholder='Role' {...role} />
           <label>Team</label>
-          <input name='team' component='input' type='text' placeholder='Team' {...team} />
+          <input name='team' type='text' placeholder='Team' {...team} />
         </div>
       </div>
       <div className='col s12 m8'>
         <h5>Biography</h5>
-        <input name='biography' component='input' type='textarea' placeholder='Biography' {...biography} />
+        <input name='biography' type='textarea' placeholder='Biography' {...biography} />
       </div>
     </div>
     <div className='row'>
