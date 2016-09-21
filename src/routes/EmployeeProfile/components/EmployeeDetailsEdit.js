@@ -4,6 +4,14 @@ import './EmployeeDetailsEdit.scss'
 
 import { EMPLOYEE_PROFILE_FORM_NAME } from 'constants/formContants'
 
+const validate = values => {
+  const errors = {}
+  if (!values.firstName) {
+    errors.firstName = 'Required'
+  }
+  return errors
+}
+
 const EmployeeDetailsEdit = ({
   handleSubmit,
   toggleEditMode,
@@ -16,10 +24,6 @@ const EmployeeDetailsEdit = ({
   initialValues
 }) => (
   <form id={EMPLOYEE_PROFILE_FORM_NAME} onSubmit={handleSubmit} className='row employee-details-edit'>
-    <div>
-      <button onClick={handleSubmit} className='btn'>Save</button>
-      <a onClick={toggleEditMode} className='btn'>Cancel</a>
-    </div>
     <div className='profile'>
       <div className='col s12 m4'>
         <div className='col s12 m6 profile-picture'>
@@ -36,10 +40,16 @@ const EmployeeDetailsEdit = ({
           <Field name='team' component='input' type='text' placeholder='Team' />
         </div>
       </div>
+      <div className='col s12 m8'>
+        <h5>Biography</h5>
+        <Field name='biography' component='input' type='textarea' placeholder='Biography' />
+      </div>
     </div>
-    <div className='col s12 m8'>
-      <h5>Biography</h5>
-      <Field name='biography' component='input' type='textarea' placeholder='Biography' />
+    <div className='row'>
+      <div className='col s12 m12'>
+        <button type='submit' className='btn'>Save</button>
+        <a onClick={toggleEditMode} className='btn waves-effect waves-light btn'>Edit</a>
+      </div>
     </div>
   </form>
 )
@@ -57,5 +67,6 @@ EmployeeDetailsEdit.propTypes = {
 }
 
 export default reduxForm({
-  form: EMPLOYEE_PROFILE_FORM_NAME
+  form: EMPLOYEE_PROFILE_FORM_NAME,
+  validate
 })(EmployeeDetailsEdit)

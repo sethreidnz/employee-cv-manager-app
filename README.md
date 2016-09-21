@@ -3,7 +3,8 @@
 This app is based on the [React-Redux-Starter-Kit](https://github.com/davezuko/react-redux-starter-kit) and the docs
 for that can be found [here](https://github.com/davezuko/react-redux-starter-kit/blob/master/README.md)
 
-The below is an abridged version to get you started.
+The below is an abridged version to get you started running the application. If you want to see some discussion 
+of some key aspects as discussed at the [CHCH.JS](https://www.meetup.com/CHCH-JS/) meetup [click here](discussion.md).
 
 ## Requirements
 * node `^4.5.0`
