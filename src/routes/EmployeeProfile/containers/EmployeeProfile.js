@@ -17,12 +17,30 @@ import {
   getSelectedEmployeeId,
   employeeProfileHasError,
   employeeProfileHasLoaded,
-  employeeProfileError,
-  employeeEditModeToggled,
-  employeeEditModeIsEnabled
+  employeeProfileError
 } from '../modules/employeeProfiles'
 
 class EmployeeProfile extends Component {
+  constructor () {
+    super()
+    debugger
+    this.state = {
+      editModeEnabled: false
+    }
+  }
+  static propTypes = {
+    params: PropTypes.shape({
+      employeeId: PropTypes.string.isRequired
+    }),
+    selectEmployee: PropTypes.func.isRequired,
+    updateEmployee: PropTypes.func.isRequired,
+    selectedEmployeeId: PropTypes.string,
+    employee: PropTypes.shape(Employee),
+    hasLoaded: PropTypes.bool.isRequired,
+    hasError: PropTypes.bool.isRequired,
+    error: PropTypes.string,
+    editingEnabled: PropTypes.bool
+  }
   componentWillMount () {
     const { selectEmployee, selectedEmployeeId, params: { employeeId } } = this.props
     if (!selectedEmployeeId || selectedEmployeeId !== employeeId) {
@@ -56,6 +74,11 @@ class EmployeeProfile extends Component {
         toggleEditMode={toggleEditMode} />
     )
   }
+  _toggleEditMode = () => {
+    this.setState({
+      editModeEnabled: !this.state.editModeEnabled
+    })
+  }
   render = () => {
     const { hasLoaded } = this.props
     if (!hasLoaded) {
@@ -68,12 +91,12 @@ class EmployeeProfile extends Component {
     }
 
     const { employee } = this.props
-    const { editingEnabled, toggleEditMode, updateEmployee } = this.props
-
+    const { updateEmployee } = this.props
+    const { editModeEnabled } = this.state
     return (
       <div>
         <div className='row'>
-          { this._renderEmployeeDetails(employee, editingEnabled, toggleEditMode, updateEmployee) }
+          { this._renderEmployeeDetails(employee, editModeEnabled, this._toggleEditMode, updateEmployee) }
         </div>
         <div className='row'>
           <div className='col s12 m6'>
@@ -88,33 +111,16 @@ class EmployeeProfile extends Component {
   }
 }
 
-EmployeeProfile.propTypes = {
-  params: PropTypes.shape({
-    employeeId: PropTypes.string.isRequired
-  }),
-  selectEmployee: PropTypes.func.isRequired,
-  updateEmployee: PropTypes.func.isRequired,
-  toggleEditMode: PropTypes.func.isRequired,
-  selectedEmployeeId: PropTypes.string,
-  employee: PropTypes.shape(Employee),
-  hasLoaded: PropTypes.bool.isRequired,
-  hasError: PropTypes.bool.isRequired,
-  error: PropTypes.string,
-  editingEnabled: PropTypes.bool
-}
-
 const mapStateToProps = (state, ownProps) => ({
   selectedEmployeeId : getSelectedEmployeeId(state),
   employee: selectEmployeeProfileFromState(state),
   hasLoaded: employeeProfileHasLoaded(state),
   hasError: employeeProfileHasError(state),
-  error: employeeProfileError(state),
-  editingEnabled: employeeEditModeIsEnabled(state)
+  error: employeeProfileError(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   selectEmployee: (employeeId) => dispatch(selectEmployee(employeeId)),
-  toggleEditMode: (employeeId) => dispatch(employeeEditModeToggled()),
   updateEmployee: (updatedEmployee) => dispatch(updateEmployee())
 })
 
