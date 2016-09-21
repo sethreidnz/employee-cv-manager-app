@@ -1,26 +1,13 @@
 import React, { PropTypes } from 'react'
-import { reduxForm, Field } from 'redux-form'
+import { reduxForm } from 'redux-form'
 
 import { EMPLOYEE_PROFILE_FORM_NAME } from 'constants/formContants'
-
-const validate = values => {
-  const errors = {}
-  if (!values.firstName) {
-    errors.firstName = 'Required'
-  }
-  return errors
-}
 
 const EmployeeDetailsEdit = ({
   handleSubmit,
   toggleEditMode,
-  firstName,
-  lastName,
-  role,
-  team,
-  biography,
   avatarUrl,
-  initialValues
+  fields: { firstName, lastName, role, team, biography}
 }) => (
   <form id={EMPLOYEE_PROFILE_FORM_NAME} onSubmit={handleSubmit} className='row employee-details-edit'>
     <div className='profile'>
@@ -30,18 +17,18 @@ const EmployeeDetailsEdit = ({
         </div>
         <div className='col s12 m6 profile-details'>
           <label>First Name</label>
-          <Field name='firstName' component='input' type='text' placeholder='First Name' />
+          <input  name='firstName' component='input' type='text' placeholder='First Name' {...firstName} />
           <label>Last Name</label>
-          <Field name='lastName' component='input' type='text' placeholder='Last Name' />
+          <input  eld name='lastName' component='input' type='text' placeholder='Last Name' {...firstNlastNameame} />
           <label>Role</label>
-          <Field name='role' component='input' type='text' placeholder='Role' />
+          <input  eld name='role' component='input' type='text' placeholder='Role' {...role} />
           <label>Team</label>
-          <Field name='team' component='input' type='text' placeholder='Team' />
+          <input  name='team' component='input' type='text' placeholder='Team' {...team} />
         </div>
       </div>
       <div className='col s12 m8'>
         <h5>Biography</h5>
-        <Field name='biography' component='input' type='textarea' placeholder='Biography' />
+        <input  eld name='biography' component='input' type='textarea' placeholder='Biography' {...biography} />
       </div>
     </div>
     <div className='row'>
@@ -56,16 +43,11 @@ const EmployeeDetailsEdit = ({
 EmployeeDetailsEdit.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   toggleEditMode: PropTypes.func.isRequired,
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  role: PropTypes.string.isRequired,
-  team: PropTypes.string.isRequired,
-  biography: PropTypes.string.isRequired,
   avatarUrl: PropTypes.string.isRequired,
   initialValues: PropTypes.object
 }
 
 export default reduxForm({
   form: EMPLOYEE_PROFILE_FORM_NAME,
-  validate
+  fields: ['firstName', 'lastName', 'role', 'team', 'biography']
 })(EmployeeDetailsEdit)
