@@ -59,7 +59,7 @@ class EmployeeProfile extends Component {
           avatarUrl={avatar}
           toggleEditMode={toggleEditMode} />
         )
-    }
+    }   
     debugger
     return (
       <EmployeeDetailsEdit
