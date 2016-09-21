@@ -205,13 +205,13 @@ const employeesSimplifiedDataList = [{
 // }
 
 export const getEmployees = () => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     fetch('http://localhost:5000/api/employee', {
       credentials: 'include'
     })
     .then(function(response) {
         if (response.status >= 400) {
-            throw new Error("Bad response from server");
+            reject("Bad response from server");
         }
         return response.json();
     })
@@ -222,13 +222,13 @@ export const getEmployees = () => {
 }
 
 export const getEmployee = (employeeId) => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     fetch(`http://localhost:5000/api/employee/${employeeId}`, {
       credentials: 'include'
     })
     .then(function(response) {
         if (response.status >= 400) {
-            throw new Error("Bad response from server");
+            reject("Bad response from server");
         }
         return response.json();
     })
@@ -251,19 +251,13 @@ export const putEmployee = (updatedEmployee) => {
       body: JSON.stringify(updatedEmployee)
     })
     .then(function(response) {
-      if (response.status >= 400) {
-          throw new Error("Bad response from server");
-      }
-      return response.json();
+        if (response.status >= 400) {
+            reject("Bad response from server");
+        }
+        return response.json();
     })
     .then(function(result) {
       resolve(updatedEmployee.id)
     })
-  })
-  return new Promise((resolve) => {
-    let employee
-    setTimeout(() => {
-      resolve(updatedEmployee.id)
-    }, 1000)
   })
 }
