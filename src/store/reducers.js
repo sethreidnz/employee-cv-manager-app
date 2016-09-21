@@ -8,7 +8,7 @@ export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
     employeeDashboard,
     employeeProfiles,
-    formReducer,
+    form:formReducer,
     ...asyncReducers
   })
 }

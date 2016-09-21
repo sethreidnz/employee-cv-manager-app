@@ -7,7 +7,7 @@ const EmployeeDetailsEdit = ({
   handleSubmit,
   toggleEditMode,
   avatarUrl,
-  fields: { firstName, lastName, role, team, biography}
+  fields: { firstName, lastName, role, team, biography }
 }) => (
   <form id={EMPLOYEE_PROFILE_FORM_NAME} onSubmit={handleSubmit} className='row employee-details-edit'>
     <div className='profile'>
@@ -17,18 +17,18 @@ const EmployeeDetailsEdit = ({
         </div>
         <div className='col s12 m6 profile-details'>
           <label>First Name</label>
-          <input  name='firstName' component='input' type='text' placeholder='First Name' {...firstName} />
+          <input name='firstName' component='input' type='text' placeholder='First Name' {...firstName} />
           <label>Last Name</label>
-          <input  eld name='lastName' component='input' type='text' placeholder='Last Name' {...firstNlastNameame} />
+          <input name='lastName' component='input' type='text' placeholder='Last Name' {...lastName} />
           <label>Role</label>
-          <input  eld name='role' component='input' type='text' placeholder='Role' {...role} />
+          <input name='role' component='input' type='text' placeholder='Role' {...role} />
           <label>Team</label>
-          <input  name='team' component='input' type='text' placeholder='Team' {...team} />
+          <input name='team' component='input' type='text' placeholder='Team' {...team} />
         </div>
       </div>
       <div className='col s12 m8'>
         <h5>Biography</h5>
-        <input  eld name='biography' component='input' type='textarea' placeholder='Biography' {...biography} />
+        <input name='biography' component='input' type='textarea' placeholder='Biography' {...biography} />
       </div>
     </div>
     <div className='row'>
@@ -43,6 +43,13 @@ const EmployeeDetailsEdit = ({
 EmployeeDetailsEdit.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   toggleEditMode: PropTypes.func.isRequired,
+  fields: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    role: PropTypes.string,
+    team: PropTypes.string,
+    biography: PropTypes.string
+  }),
   avatarUrl: PropTypes.string.isRequired,
   initialValues: PropTypes.object
 }
