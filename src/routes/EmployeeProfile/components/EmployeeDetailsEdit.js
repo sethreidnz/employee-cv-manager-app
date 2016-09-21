@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import { reduxForm, Field } from 'redux-form'
-import './EmployeeDetailsEdit.scss'
 
 import { EMPLOYEE_PROFILE_FORM_NAME } from 'constants/formContants'
 

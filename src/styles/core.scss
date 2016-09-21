@@ -1,26 +1,6 @@
 @import 'base';
-@import '~normalize.css/normalize';
-@import 'materialise-css';
+@import 'materialise-import';
 @import 'spinner';
-
-// Some best-practice CSS that's useful for most apps
-// Just remove them if they're not what you want
-html {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
 
 img{
     max-width:100%;
@@ -56,9 +36,7 @@ nav ul li.active a{
     transition: all 1s ease-in-out;
 }
 
-
 /* Error */
-
 .error{
   width: 30%;
   margin:auto;
