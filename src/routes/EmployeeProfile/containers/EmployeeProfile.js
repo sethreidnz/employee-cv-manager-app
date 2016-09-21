@@ -60,13 +60,9 @@ class EmployeeProfile extends Component {
           toggleEditMode={toggleEditMode} />
         )
     }
+    debugger
     return (
       <EmployeeDetailsEdit
-        firstName={firstName}
-        lastName={lastName}
-        role={role}
-        biography={biography}
-        team={team}
         avatarUrl={avatar}
         initialValues={employee}
         handleSubmit={updateEmployee}

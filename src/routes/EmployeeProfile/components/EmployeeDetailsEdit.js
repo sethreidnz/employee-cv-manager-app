@@ -34,7 +34,7 @@ const EmployeeDetailsEdit = ({
     <div className='row'>
       <div className='col s12 m12'>
         <button type='submit' className='btn'>Save</button>
-        <a onClick={toggleEditMode} className='btn waves-effect waves-light btn'>Edit</a>
+        <a onClick={toggleEditMode} className='btn waves-effect waves-light btn'>Cancel</a>
       </div>
     </div>
   </form>
@@ -43,13 +43,7 @@ const EmployeeDetailsEdit = ({
 EmployeeDetailsEdit.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   toggleEditMode: PropTypes.func.isRequired,
-  fields: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    role: PropTypes.string,
-    team: PropTypes.string,
-    biography: PropTypes.string
-  }),
+  fields: PropTypes.object,
   avatarUrl: PropTypes.string.isRequired,
   initialValues: PropTypes.object
 }
