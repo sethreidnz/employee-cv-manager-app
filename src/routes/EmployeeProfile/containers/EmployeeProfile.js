@@ -40,7 +40,6 @@ class EmployeeProfile extends Component {
     error: PropTypes.string,
     editingEnabled: PropTypes.bool
   }
-
   componentWillMount () {
     const { selectEmployee, selectedEmployeeId, params: { employeeId } } = this.props
     if (!selectedEmployeeId || selectedEmployeeId !== employeeId) {

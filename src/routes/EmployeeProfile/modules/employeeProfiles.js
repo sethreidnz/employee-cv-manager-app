@@ -12,6 +12,7 @@ const EMPLOYEE_ERROR_RECEIVED = 'EMPLOYEE_ERROR_RECEIVED'
 const EMPLOYEE_UPDATE_REQUESTED = 'EMPLOYEE_UPDATE_REQUESTED'
 const EMPLOYEE_UPDATE_SUCCEEDED = 'EMPLOYEE_UPDATE_SUCCEEDED'
 const EMPLOYEE_UPDATE_ERROR_RECIEVED = 'EMPLOYEE_UPDATE_ERROR_RECIEVED'
+const EMPLOYEE_PROFILE_INVALIDATED = 'EMPLOYEE_PROFILE_INVALIDATED'
 
 // ------------------------------------
 // Actions
@@ -55,21 +56,24 @@ export const employeeUpdateErrorRecieved = (error) => ({
   error: error
 })
 
+export const employeeProfileInvalidated = (error) => ({
+  type: EMPLOYEE_PROFILE_INVALIDATED,
+  error: error
+})
+
 const shouldFetchEmployee = (state) => {
-  const { isFetching } = state.employeeProfiles
+  const { isFetching, isInvalidated } = state.employeeProfiles
   const selectedEmployeeInState = selectEmployeeProfileFromState(state) != null
-  return !selectedEmployeeInState && !isFetching
+  return (!selectedEmployeeInState && !isFetching) || (isInvalidated && !isFetching)
 }
 
 export const selectEmployee = (employeeId) => {
   return (dispatch, getState) => {
     dispatch(employeeSelected(employeeId))
     const state = getState()
-    const selectedEmployeeInState = selectEmployeeProfileFromState(state)
-    if (selectedEmployeeInState) {
+    if (!shouldFetchEmployee(state)) {
       dispatch(employeeRequestAborted())
     }
-    if (!shouldFetchEmployee(state)) return
     dispatch(employeeReqeusted(employeeId))
     return getEmployee(employeeId).then(
             (employee) => dispatch(employeeReceived(employee)),
@@ -144,6 +148,7 @@ const employeeRecievedHandler = (state, action) => {
     items: newEmployeeProfileList,
     selectedEmployeeId: action.employee ? action.employee.id : null,
     hasLoaded: true,
+    isInvalidated: false,
     isFetching: false,
     hasError: false,
     error: null
@@ -161,12 +166,19 @@ const employeeSelectedErrorHandler = (state, action) => {
   })
 }
 
+const employeeProfileInvalidatedHandler = (state, action) => {
+  return Object.assign({}, state, {
+    isInvalidated: true
+  })
+}
+
 const ACTION_HANDLERS = {
   [EMPLOYEE_SELECTED] : employeeSelectedHandler,
   [EMPLOYEE_REQUESTED]: employeeRequestedHandler,
   [EMPLOYEE_REQUEST_ABORTED]: employeeRequestAbortedHandler,
   [EMPLOYEE_RECEIVED] : employeeRecievedHandler,
-  [EMPLOYEE_ERROR_RECEIVED] : employeeSelectedErrorHandler
+  [EMPLOYEE_ERROR_RECEIVED] : employeeSelectedErrorHandler,
+  [EMPLOYEE_PROFILE_INVALIDATED]: employeeProfileInvalidatedHandler
 }
 
 // ------------------------------------
@@ -196,6 +208,7 @@ export const selectEmployeeProfileFromState = createSelector(
 const initialState = {
   items: [],
   selectedEmployeeId: null,
+  isInvalidated: false,
   hasLoaded: false,
   isFetching: false,
   hasError: false,
