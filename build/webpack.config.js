@@ -37,7 +37,13 @@ webpackConfig.entry = {
 // Bundle Output
 // ------------------------------------
 webpackConfig.output = {
-  filename   : `[name].[${config.compiler_hash_type}].js`,
+  filename   : (() => {
+    if (!__DEV__) {
+      return `[name].[${config.compiler_hash_type}].js`
+    } else {
+      return `[name].js`
+    }
+  })(),
   path       : paths.dist(),
   publicPath : config.compiler_public_path
 }
