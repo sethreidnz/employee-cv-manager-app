@@ -2,10 +2,7 @@ import React, { PropTypes } from 'react'
 
 const EmployeeDetails = ({ firstName, lastName, role, team, biography, avatarUrl, toggleEditMode }) => (
   <div className='row'>
-    <div>
-      <a onClick={toggleEditMode} className='btn'>Edit</a>
-    </div>
-    <div className='profile'>
+    <div className='profile row'>
       <div className='col s12 m4'>
         <div className='col s12 m6 profile-picture'>
           <img src={avatarUrl} alt='' />
@@ -18,12 +15,17 @@ const EmployeeDetails = ({ firstName, lastName, role, team, biography, avatarUrl
           <span className='profile-team'>{team}</span>
         </div>
       </div>
+      <div className='col s12 m8'>
+        <h5>Biography</h5>
+        <p>
+          {biography}
+        </p>
+      </div>
     </div>
-    <div className='col s12 m8'>
-      <h5>Biography</h5>
-      <p>
-        {biography}
-      </p>
+    <div className='row'>
+      <div className='col s12 m12'>
+        <a onClick={toggleEditMode} className='btn waves-effect waves-light btn'>Edit</a>
+      </div>
     </div>
   </div>
 )
