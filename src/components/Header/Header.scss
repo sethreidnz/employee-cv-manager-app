@@ -2,3 +2,17 @@
   font-weight: bold;
   text-decoration: underline;
 }
+
+.side-nav:not(.side-nav-show){
+  position: -100%;
+}
+
+/* Side Nav */
+.side-nav-show{
+    transform: translate(0);
+    transition: all 1s ease-in-out;
+}
+.side-nav-hide{
+    transform: translateX(-100%);
+    transition: all 1s ease-in-out;
+}
