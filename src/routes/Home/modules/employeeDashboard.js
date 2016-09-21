@@ -6,6 +6,7 @@ import { getEmployees } from 'api/employees'
 const EMPLOYEES_REQUESTED = 'EMPLOYEES_REQUESTED'
 const EMPLOYEES_RECEIVED = 'EMPLOYEES_RECEIVED'
 const EMPLOYEES_ERROR_RECEIVED = 'EMPLOYEES_ERROR_RECEIVED'
+const EMPLOYEES_INVALIDED = 'EMPLOYEES_INVALIDED'
 
 // ------------------------------------
 // Actions
@@ -45,6 +46,10 @@ export const requestEmployees = () => {
   }
 }
 
+export const employeesInvalidated = () => ({
+  type: EMPLOYEES_INVALIDED
+})
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -64,6 +69,7 @@ const employeesReceivedHandler = (state, action) => {
     hasLoaded: true,
     isFetching: false,
     hasError: false,
+    isInvalidated: false,
     error: null
   })
 }
@@ -78,10 +84,17 @@ const employeesRequestedErrorHandler = (state, action) => {
   })
 }
 
+const employeesInvalidatedHandler = (state, action) => {
+  return Object.assign({}, state, {
+    isInvalidated: true
+  })
+}
+
 const ACTION_HANDLERS = {
   [EMPLOYEES_REQUESTED] : employeesRequestedHandler,
   [EMPLOYEES_RECEIVED] : employeesReceivedHandler,
-  [EMPLOYEES_ERROR_RECEIVED] : employeesRequestedErrorHandler
+  [EMPLOYEES_ERROR_RECEIVED] : employeesRequestedErrorHandler,
+  [EMPLOYEES_INVALIDED]: employeesInvalidatedHandler
 }
 
 // ------------------------------------
@@ -93,6 +106,7 @@ const initialState = {
   hasLoaded: false,
   isFetching: false,
   hasError: false,
+  isInvalidated: false,
   error: null
 }
 
