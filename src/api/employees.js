@@ -191,12 +191,11 @@ const employeesSimplifiedDataList = [{
   team: 'Modern Apps'
 }]
 
+const apiUrl = `${__APIHOST__}/api`
+const employeeEndpoint = `${apiUrl}/employee`
+
 export const getEmployees = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(employeesSimplifiedDataList)
-    }, 1000)
-  })
+  return fetch(employeeEndpoint)
 }
 
 export const getEmployee = (employeeId) => {

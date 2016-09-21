@@ -27,7 +27,6 @@ class Header extends Component {
       'side-nav-show': this.state.sideNavShow,
       'side-nav-hide': !this.state.sideNavShow
     })
-    debugger
     return (
       <nav>
         <div className='nav-wrapper black'>

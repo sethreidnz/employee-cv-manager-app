@@ -41,7 +41,7 @@ export const requestEmployees = () => {
     return getEmployees().then(
             (employees) => dispatch(employeesReceived(employees)),
             (error) => dispatch(employeesErrorReceived(error))
-        )
+    )
   }
 }
 
