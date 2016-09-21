@@ -243,7 +243,11 @@ export const putEmployee = (updatedEmployee) => {
     fetch(`http://localhost:5000/api/employee/${updatedEmployee.id}`, {
       method: 'PUT',
       credentials: 'include',
-      body: updatedEmployee
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updatedEmployee)
     })
     .then(function(response) {
         if (response.status >= 400) {
