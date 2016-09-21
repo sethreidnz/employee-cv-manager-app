@@ -5,6 +5,7 @@ import { EMPLOYEE_PROFILE_FORM_NAME } from 'constants/formContants'
 
 const EmployeeDetailsEdit = ({
   handleSubmit,
+  toggleEditMode,
   firstName,
   lastName,
   role,
@@ -13,7 +14,11 @@ const EmployeeDetailsEdit = ({
   avatarUrl,
   initialValues
 }) => (
-  <form onSubmit={handleSubmit} className='row'>
+  <form id={EMPLOYEE_PROFILE_FORM_NAME} onSubmit={handleSubmit} className='row'>
+    <div>
+      <button onClick={handleSubmit} className='btn'>Save</button>
+      <a onClick={toggleEditMode} className='btn'>Cancel</a>
+    </div>
     <div className='profile'>
       <div className='col s12 m4'>
         <div className='col s12 m6 profile-picture'>
@@ -40,6 +45,7 @@ const EmployeeDetailsEdit = ({
 
 EmployeeDetailsEdit.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  toggleEditMode: PropTypes.func.isRequired,
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,

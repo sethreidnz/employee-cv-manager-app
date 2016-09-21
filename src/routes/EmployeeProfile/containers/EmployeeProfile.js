@@ -29,7 +29,7 @@ class EmployeeProfile extends Component {
       selectEmployee(employeeId)
     }
   }
-  _renderEmployeeDetails = (editModeEnabled, employee) => {
+  _renderEmployeeDetails = (employee, editModeEnabled, toggleEditMode, updateEmployee) => {
     const { firstName, lastName, role, team, biography, avatar } = employee
     if (!editModeEnabled) {
       return (
@@ -39,10 +39,10 @@ class EmployeeProfile extends Component {
           role={role}
           biography={biography}
           team={team}
-          avatarUrl={avatar} />
+          avatarUrl={avatar}
+          toggleEditMode={toggleEditMode} />
         )
     }
-    debugger
     return (
       <EmployeeDetailsEdit
         firstName={firstName}
@@ -51,31 +51,9 @@ class EmployeeProfile extends Component {
         biography={biography}
         team={team}
         avatarUrl={avatar}
-        initialValues={employee} />
-    )
-  }
-  _renderControls = (editModeEnabled, toggleEditMode, updateEmployee) => {
-    let controlButtons
-    if (editModeEnabled) {
-      controlButtons = (
-        <div>
-          <a onClick={updateEmployee} className='btn'>Save</a>
-          <a onClick={toggleEditMode} className='btn'>Cancel</a>
-        </div>
-      )
-    } else {
-      controlButtons = (
-        <div>
-          <a onClick={toggleEditMode} className='btn'>Edit</a>
-        </div>
-      )
-    }
-    return (
-      <div className='profile-controls row'>
-        <div className='col m12'>
-          {controlButtons}
-        </div>
-      </div>
+        initialValues={employee}
+        handleSubmit={updateEmployee}
+        toggleEditMode={toggleEditMode} />
     )
   }
   render = () => {
@@ -94,9 +72,8 @@ class EmployeeProfile extends Component {
 
     return (
       <div>
-        {this._renderControls(editingEnabled, toggleEditMode, updateEmployee)}
         <div className='row'>
-          { this._renderEmployeeDetails(editingEnabled, employee) }
+          { this._renderEmployeeDetails(employee, editingEnabled, toggleEditMode, updateEmployee) }
         </div>
         <div className='row'>
           <div className='col s12 m6'>

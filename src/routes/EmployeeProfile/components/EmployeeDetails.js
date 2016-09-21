@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react'
 
-const EmployeeDetails = ({ firstName, lastName, role, team, biography, avatarUrl }) => (
+const EmployeeDetails = ({ firstName, lastName, role, team, biography, avatarUrl, toggleEditMode }) => (
   <div className='row'>
+    <div>
+      <a onClick={toggleEditMode} className='btn'>Edit</a>
+    </div>
     <div className='profile'>
       <div className='col s12 m4'>
         <div className='col s12 m6 profile-picture'>
@@ -31,7 +34,8 @@ EmployeeDetails.propTypes = {
   role: PropTypes.string.isRequired,
   team: PropTypes.string.isRequired,
   biography: PropTypes.string.isRequired,
-  avatarUrl: PropTypes.string.isRequired
+  avatarUrl: PropTypes.string.isRequired,
+  toggleEditMode: PropTypes.func.isRequired
 }
 
 export default EmployeeDetails
