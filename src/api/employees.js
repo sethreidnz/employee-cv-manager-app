@@ -1,4 +1,8 @@
+import fetch from 'isomorphic-fetch'
+require('es6-promise').polyfill()
+
 /* eslint-disable*/
+/*
 const employeesAllDataList = [{
   id: '2813a9b5-d5d0-4b3a-a7bb-a7f275516b1d',
   firstName: 'Gabriella',
@@ -191,6 +195,8 @@ const employeesSimplifiedDataList = [{
   team: 'Modern Apps'
 }]
 
+*/
+
 // const apiUrl = `${__APIHOST__}/api`
 // const employeeEndpoint = `${apiUrl}/employee`
 
@@ -200,25 +206,59 @@ const employeesSimplifiedDataList = [{
 
 export const getEmployees = () => {
   return new Promise((resolve) => {
-    setTimeout(() => {
+    fetch('http://localhost:5000/api/employee', {
+      credentials: 'include'
+    })
+    .then(function(response) {
+        if (response.status >= 400) {
+            throw new Error("Bad response from server");
+        }
+        return response.json();
+    })
+    .then(function(employeesSimplifiedDataList) {
       resolve(employeesSimplifiedDataList)
-    }, 1000)
+    })
   })
 }
 
 export const getEmployee = (employeeId) => {
   return new Promise((resolve) => {
-    let employee
-    setTimeout(() => {
-      employee = employeesAllDataList.filter((value) => {
-        return value && (value.id === employeeId)
-      })[0]
+    fetch(`http://localhost:5000/api/employee/${employeeId}`, {
+      credentials: 'include'
+    })
+    .then(function(response) {
+        if (response.status >= 400) {
+            throw new Error("Bad response from server");
+        }
+        return response.json();
+    })
+    .then(function(employee) {
       resolve(employee)
-    }, 1000)
+    })
   })
 }
 
 export const putEmployee = (updatedEmployee) => {
+  return new Promise((resolve, reject) => {
+    fetch(`http://localhost:5000/api/employee/${updatedEmployee.id}`, {
+      method: 'PUT',
+      credentials: 'include',
+      body: updatedEmployee
+    })
+    .then(function(response) {
+        if (response.status >= 400) {
+            throw new Error("Bad response from server");
+        }
+        return response.json();
+    })
+    .then(function(result) {
+      if (result === true) {
+        resolve(updatedEmployee.id)
+      } else {
+        reject(result)
+      }
+    })
+  })
   return new Promise((resolve) => {
     let employee
     setTimeout(() => {
