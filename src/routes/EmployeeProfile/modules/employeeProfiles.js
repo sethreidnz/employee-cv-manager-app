@@ -1,6 +1,8 @@
 import { getEmployee, putEmployee } from 'api/employees'
 import { createSelector } from 'reselect'
 
+import { employeesInvalidated } from 'routes/Home/modules/employeeDashboard'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -87,7 +89,11 @@ export const updateEmployee = (updatedEmployee) => {
   return (dispatch, getState) => {
     dispatch(employeeUpdateRequested())
     return putEmployee(updatedEmployee).then(
-            (employee) => dispatch(employeeUpdateSucceeded(employee)),
+            (employee) => {
+              dispatch(employeesInvalidated())
+              dispatch(employeeProfileInvalidated())
+              dispatch(employeeUpdateSucceeded(employee))
+            },
             (error) => dispatch(employeeUpdateErrorRecieved(error))
         )
   }
