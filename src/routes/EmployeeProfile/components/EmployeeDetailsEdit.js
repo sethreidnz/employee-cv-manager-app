@@ -9,7 +9,7 @@ const EmployeeDetailsEdit = ({
   avatarUrl,
   fields: { firstName, lastName, role, team, biography }
 }) => (
-  <form id={EMPLOYEE_PROFILE_FORM_NAME} className='row employee-details-edit'>
+  <form id={EMPLOYEE_PROFILE_FORM_NAME} onSubmit={handleSubmit} className='row employee-details-edit'>
     <div className='profile'>
       <div className='col s12 m4'>
         <div className='col s12 m6 profile-picture'>
