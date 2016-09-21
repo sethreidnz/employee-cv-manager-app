@@ -79,7 +79,6 @@ export const selectEmployee = (employeeId) => {
 }
 
 export const updateEmployee = (updatedEmployee) => {
-  console.log(updatedEmployee)
   return (dispatch, getState) => {
     dispatch(employeeUpdateRequested())
     return putEmployee(updatedEmployee).then(

@@ -239,7 +239,6 @@ export const getEmployee = (employeeId) => {
 }
 
 export const putEmployee = (updatedEmployee) => {
-  console.log(updatedEmployee)
   return new Promise((resolve, reject) => {
     fetch(`http://localhost:5000/api/employee/${updatedEmployee.id}`, {
       method: 'PUT',
@@ -252,12 +251,13 @@ export const putEmployee = (updatedEmployee) => {
     })
     .then(function(response) {
         if (response.status >= 400) {
-            reject("Bad response from server");
+          reject("Bad response from server");
+        } else {
+          resolve(updatedEmployee.id)
         }
-        return response.json();
     })
-    .then(function(result) {
-      resolve(updatedEmployee.id)
+    .catch((err) => {
+      console.log(err)
     })
   })
 }
