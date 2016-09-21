@@ -23,7 +23,6 @@ import {
 class EmployeeProfile extends Component {
   constructor () {
     super()
-    debugger
     this.state = {
       editModeEnabled: false
     }

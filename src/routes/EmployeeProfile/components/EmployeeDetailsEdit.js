@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { reduxForm, Field } from 'redux-form'
+import './EmployeeDetailsEdit.scss'
 
 import { EMPLOYEE_PROFILE_FORM_NAME } from 'constants/formContants'
 
@@ -14,7 +15,7 @@ const EmployeeDetailsEdit = ({
   avatarUrl,
   initialValues
 }) => (
-  <form id={EMPLOYEE_PROFILE_FORM_NAME} onSubmit={handleSubmit} className='row'>
+  <form id={EMPLOYEE_PROFILE_FORM_NAME} onSubmit={handleSubmit} className='row employee-details-edit'>
     <div>
       <button onClick={handleSubmit} className='btn'>Save</button>
       <a onClick={toggleEditMode} className='btn'>Cancel</a>
