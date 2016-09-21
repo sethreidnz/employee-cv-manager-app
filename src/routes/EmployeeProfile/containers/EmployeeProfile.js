@@ -17,7 +17,8 @@ import {
   getSelectedEmployeeId,
   employeeProfileHasError,
   employeeProfileHasLoaded,
-  employeeProfileError
+  employeeProfileError,
+  employeeProfileIsInvalidated
 } from '../modules/employeeProfiles'
 
 class EmployeeProfile extends Component {
@@ -40,13 +41,15 @@ class EmployeeProfile extends Component {
     error: PropTypes.string,
     editingEnabled: PropTypes.bool
   }
-  componentWillMount () {
-    const { selectEmployee, selectedEmployeeId, params: { employeeId } } = this.props
-    if (!selectedEmployeeId || selectedEmployeeId !== employeeId) {
-      selectEmployee(employeeId)
-    }
+  componentWillMount = () => {
+    const { selectEmployee, params: { employeeId } } = this.props
+    selectEmployee(employeeId)
   }
-
+  // componentWillReceiveProps = () => {
+  //   const { selectEmployee, params: { employeeId } } = this.props
+  //   debugger
+  //   selectEmployee(employeeId)
+  // }
   onUpdateEmployee = (updatedEmployee) => {
     const { employee, updateEmployee } = this.props
     const newEmployee = Object.assign({}, employee, updatedEmployee)
@@ -117,6 +120,7 @@ const mapStateToProps = (state, ownProps) => ({
   employee: selectEmployeeProfileFromState(state),
   hasLoaded: employeeProfileHasLoaded(state),
   hasError: employeeProfileHasError(state),
+  isInvalidated: employeeProfileIsInvalidated(state),
   error: employeeProfileError(state)
 })
 

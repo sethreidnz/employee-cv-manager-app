@@ -66,14 +66,17 @@ export const employeeProfileInvalidated = (error) => ({
 const shouldFetchEmployee = (state) => {
   const { isFetching, isInvalidated } = state.employeeProfiles
   const selectedEmployeeInState = selectEmployeeProfileFromState(state) != null
-  return (!selectedEmployeeInState && !isFetching) || (isInvalidated && !isFetching)
+  const employeeHasBeenInvalidated = (isInvalidated && !isFetching)
+  const noEmployeeFound = (!selectedEmployeeInState && !isFetching)
+  debugger
+  return noEmployeeFound || employeeHasBeenInvalidated
 }
 
 export const selectEmployee = (employeeId) => {
   return (dispatch, getState) => {
     dispatch(employeeSelected(employeeId))
     const state = getState()
-    if (!shouldFetchEmployee(state)) {
+    if (!shouldFetchEmployee(state, employeeId)) {
       dispatch(employeeRequestAborted())
     }
     dispatch(employeeReqeusted(employeeId))
@@ -195,6 +198,7 @@ export const employeeProfileHasError = (state) => state.employeeProfiles.hasErro
 export const employeeProfileHasLoaded = (state) => state.employeeProfiles.hasLoaded
 export const employeeProfileError = (state) => state.employeeProfiles.error
 export const employeeEditModeIsEnabled = (state) => state.employeeProfiles.editModeEnabled
+export const employeeProfileIsInvalidated = (state) => state.employeeProfiles.isInvalidated
 
 export const selectEmployeeProfileFromState = createSelector(
   selectEmployeeProfiles,
