@@ -3,10 +3,10 @@ import { getEmployees } from 'api/employees'
 // ------------------------------------
 // Constants
 // ------------------------------------
-const EMPLOYEES_REQUESTED = 'EMPLOYEES_REQUESTED'
-const EMPLOYEES_RECEIVED = 'EMPLOYEES_RECEIVED'
-const EMPLOYEES_ERROR_RECEIVED = 'EMPLOYEES_ERROR_RECEIVED'
-const EMPLOYEES_INVALIDED = 'EMPLOYEES_INVALIDED'
+export const EMPLOYEES_REQUESTED = 'EMPLOYEES_REQUESTED'
+export const EMPLOYEES_RECEIVED = 'EMPLOYEES_RECEIVED'
+export const EMPLOYEES_ERROR_RECEIVED = 'EMPLOYEES_ERROR_RECEIVED'
+export const EMPLOYEES_INVALIDED = 'EMPLOYEES_INVALIDED'
 
 // ------------------------------------
 // Actions
