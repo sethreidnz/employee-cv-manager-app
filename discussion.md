@@ -75,19 +75,17 @@ using as well as customise variables if I want. This can be done in the '_variab
 ### Using Redux as a Cache
 
 If you havea look in `src/Routes/EmployeeProfile/modules/employeeProfile` at how the reducer logic in here works you will find that even though the page
-itself is dealing with a single profile I have cached each one. 
+itself is dealing with a single profile I have cached each one. I also update each on and 'invalidate' them when they are updated so they are fetched again.
 
 ### Using Local Component State when appropriate
 
-In the toggle for the profile edit
+In the toggle for the profile edit I have not used Redux because it is a local thing to the component. It does not effect any of the other components in my application and 
+the complexity to use Redux state is not worth it.
 
 ### Reselect for selecting
 
-In the employeeProfile modules
-
-### Deployment
-
-Using blob storage and updating a web application. Seperate concerns
+In the employeeProfile modules I have craeted a number of helper functions that make selecting slices of my state a lot easier. Contrast this with the `Home` route
+and you will see how I can re-use the same logic a lot of times.
 
 ### Authentication
 
@@ -95,4 +93,9 @@ Using OAuth and just not letting the user get to the application until they log 
 
 ### Redux forms
 
-Using these and how we have done the toggling between edit mode and display mode
+Using redux forms simplifies the 2 way data binding that you really want. Have a look at how the reducer looks in redux dev tools and you make edits to the form.
+This can be foudn in `src/routes/EmployeeProfile/Components/EmployeeDetailsEdit.js`.
+
+### Deployment
+
+Using blob storage and updating a web application. Seperate concerns
