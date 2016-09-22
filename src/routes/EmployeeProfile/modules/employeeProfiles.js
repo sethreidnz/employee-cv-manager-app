@@ -68,7 +68,6 @@ const shouldFetchEmployee = (state) => {
   const selectedEmployeeInState = selectEmployeeProfileFromState(state) != null
   const employeeHasBeenInvalidated = (isInvalidated && !isFetching)
   const noEmployeeFound = (!selectedEmployeeInState && !isFetching)
-  debugger
   return noEmployeeFound || employeeHasBeenInvalidated
 }
 

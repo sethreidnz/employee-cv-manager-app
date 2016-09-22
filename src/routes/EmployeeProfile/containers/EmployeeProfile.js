@@ -35,6 +35,7 @@ class EmployeeProfile extends Component {
     selectEmployee: PropTypes.func.isRequired,
     updateEmployee: PropTypes.func.isRequired,
     selectedEmployeeId: PropTypes.string,
+    isInvalidated: PropTypes.bool,
     employee: PropTypes.shape(Employee),
     hasLoaded: PropTypes.bool.isRequired,
     hasError: PropTypes.bool.isRequired,
@@ -45,11 +46,13 @@ class EmployeeProfile extends Component {
     const { selectEmployee, params: { employeeId } } = this.props
     selectEmployee(employeeId)
   }
-  // componentWillReceiveProps = () => {
-  //   const { selectEmployee, params: { employeeId } } = this.props
-  //   debugger
-  //   selectEmployee(employeeId)
-  // }
+  componentWillReceiveProps = (nextProps) => {
+    const { selectEmployee, params: { employeeId }, isInvalidated } = nextProps
+    debugger
+    if (isInvalidated) {
+      selectEmployee(employeeId)
+    }
+  }
   onUpdateEmployee = (updatedEmployee) => {
     const { employee, updateEmployee } = this.props
     const newEmployee = Object.assign({}, employee, updatedEmployee)
