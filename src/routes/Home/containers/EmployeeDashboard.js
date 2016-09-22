@@ -15,7 +15,14 @@ import { requestEmployees, requestEmployee } from '../modules/employeeDashboard'
 class EmployeeDashboard extends Component {
   componentWillMount () {
     const { requestEmployees } = this.props
+    debugger
     requestEmployees()
+  }
+  componentWillReceiveProps = (nextProps) => {
+    const { isInvalidated } = nextProps
+    if (isInvalidated) {
+      requestEmployees()
+    }
   }
   render () {
     const { hasLoaded } = this.props
@@ -47,14 +54,16 @@ EmployeeDashboard.propTypes = {
   employees: PropTypes.arrayOf(PropTypes.shape(EmployeeSimlified)).isRequired,
   hasLoaded: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
-  error: PropTypes.string
+  error: PropTypes.string,
+  isInvalidated: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = (state) => ({
   employees: state.employeeDashboard.items,
   hasLoaded: state.employeeDashboard.hasLoaded,
   hasError: state.employeeDashboard.hasError,
-  error: state.employeeDashboard.error
+  error: state.employeeDashboard.error,
+  isInvalidated: state.employeeDashboard.isInvalidated
 })
 
 const mapDispatchToProps = (dispatch) => ({

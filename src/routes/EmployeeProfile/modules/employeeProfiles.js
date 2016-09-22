@@ -132,6 +132,16 @@ const employeeRequestAbortedHandler = (state, action) => {
   })
 }
 
+const employeeErrorReceivedHandler = (state, action) => {
+  return Object.assign({}, state, {
+    hasLoaded: true,
+    isFetching: false,
+    hasError: true,
+    error: action.error,
+    isInvalidated: false
+  })
+}
+
 const employeeRecievedHandler = (state, action) => {
   const employeeProfiles = state.items
   const recievedEmployeeIndex = employeeProfiles.findIndex((employee) => {
@@ -158,17 +168,6 @@ const employeeRecievedHandler = (state, action) => {
     isFetching: false,
     hasError: false,
     error: null
-  })
-}
-
-const employeeSelectedErrorHandler = (state, action) => {
-  return Object.assign({}, state, {
-    items: [],
-    selectedEmployeeId: null,
-    hasLoaded: true,
-    isFetching: false,
-    hasError: true,
-    error: action.error
   })
 }
 
@@ -208,7 +207,7 @@ const ACTION_HANDLERS = {
   [EMPLOYEE_REQUESTED]: employeeRequestedHandler,
   [EMPLOYEE_REQUEST_ABORTED]: employeeRequestAbortedHandler,
   [EMPLOYEE_RECEIVED] : employeeRecievedHandler,
-  [EMPLOYEE_ERROR_RECEIVED] : employeeSelectedErrorHandler,
+  [EMPLOYEE_ERROR_RECEIVED] : employeeErrorReceivedHandler,
   [EMPLOYEE_PROFILE_INVALIDATED]: employeeProfileInvalidatedHandler,
   [EMPLOYEE_UPDATE_REQUESTED] : employeeUpdateRequestedHandler,
   [EMPLOYEE_UPDATE_SUCCEEDED] : employeeUpdateSuccessHandler,

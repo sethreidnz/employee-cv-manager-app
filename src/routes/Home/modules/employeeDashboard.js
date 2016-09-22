@@ -35,8 +35,8 @@ export const employeesErrorReceived = (error) => ({
 export const requestEmployees = () => {
   return (dispatch, getState) => {
     const state = getState()
-    const { hasLoaded, isFetching } = state.employeeDashboard
-    if (hasLoaded || isFetching) return
+    const { hasLoaded, isFetching, isInvalidated } = state.employeeDashboard
+    if ((!isInvalidated && hasLoaded) || isFetching) return
 
     dispatch(employeesRequested())
     return getEmployees().then(
@@ -80,6 +80,7 @@ const employeesRequestedErrorHandler = (state, action) => {
     hasLoaded: true,
     isFetching: false,
     hasError: true,
+    isInvalidated: false,
     error: action.error
   })
 }
