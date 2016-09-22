@@ -6,29 +6,23 @@ import { EMPLOYEE_PROFILE_FORM_NAME } from 'constants/formContants'
 const EmployeeDetailsEdit = ({
   handleSubmit,
   toggleEditMode,
-  avatarUrl,
   fields: { firstName, lastName, role, team, biography }
 }) => (
   <form id={EMPLOYEE_PROFILE_FORM_NAME} onSubmit={handleSubmit} className='row employee-details-edit'>
     <div className='profile'>
       <div className='col s12 m4'>
-        <div className='col s12 m6 profile-picture'>
-          <img src={avatarUrl} alt='' />
-        </div>
-        <div className='col s12 m6 profile-details'>
-          <label>First Name</label>
-          <input name='firstName' type='text' placeholder='First Name' {...firstName} />
-          <label>Last Name</label>
-          <input name='lastName' type='text' placeholder='Last Name' {...lastName} />
-          <label>Role</label>
-          <input name='role' type='text' placeholder='Role' {...role} />
-          <label>Team</label>
-          <input name='team' type='text' placeholder='Team' {...team} />
-        </div>
+        <label>First Name</label>
+        <input name='firstName' type='text' placeholder='First Name' {...firstName} />
+        <label>Last Name</label>
+        <input name='lastName' type='text' placeholder='Last Name' {...lastName} />
+        <label>Role</label>
+        <input name='role' type='text' placeholder='Role' {...role} />
+        <label>Team</label>
+        <input name='team' type='text' placeholder='Team' {...team} />
       </div>
       <div className='col s12 m8'>
         <h5>Biography</h5>
-        <input name='biography' type='textarea' placeholder='Biography' {...biography} />
+        <textarea className='materialize-textarea' name='biography' type='textarea' placeholder='Biography' {...biography} />
       </div>
     </div>
     <div className='row'>
@@ -44,7 +38,6 @@ EmployeeDetailsEdit.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   toggleEditMode: PropTypes.func.isRequired,
   fields: PropTypes.object,
-  avatarUrl: PropTypes.string.isRequired,
   initialValues: PropTypes.object
 }
 

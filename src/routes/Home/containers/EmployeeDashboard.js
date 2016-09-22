@@ -15,7 +15,6 @@ import { requestEmployees, requestEmployee } from '../modules/employeeDashboard'
 class EmployeeDashboard extends Component {
   componentWillMount () {
     const { requestEmployees } = this.props
-    debugger
     requestEmployees()
   }
   componentWillReceiveProps = (nextProps) => {

@@ -75,7 +75,6 @@ class EmployeeProfile extends Component {
     }
     return (
       <EmployeeDetailsEdit
-        avatarUrl={avatar}
         initialValues={employee}
         onSubmit={this.onUpdateEmployee}
         toggleEditMode={toggleEditMode} />

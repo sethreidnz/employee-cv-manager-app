@@ -7,7 +7,7 @@ import { EmployeeSimlified } from 'constants/PropTypes'
 const EmployeeListItem = ({ employee }) => (
   <li className='collection-item avatar'>
     <img src={employee.avatar} alt={employee.name} className='circle' />
-    <span className='title'>{employee.firstName} {employee.lastName}</span>
+    <span className='title'><strong>{employee.firstName} {employee.lastName}</strong></span>
     <p>{employee.role} <br />
       {employee.team}
     </p>
