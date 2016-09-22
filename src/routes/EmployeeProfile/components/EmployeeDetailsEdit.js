@@ -22,7 +22,11 @@ const EmployeeDetailsEdit = ({
       </div>
       <div className='col s12 m8'>
         <h5>Biography</h5>
-        <textarea className='materialize-textarea' name='biography' type='textarea' placeholder='Biography' {...biography} />
+        <textarea
+          className='materialize-textarea'
+          name='biography'
+          type='textarea'
+          placeholder='Biography' {...biography} />
       </div>
     </div>
     <div className='row'>

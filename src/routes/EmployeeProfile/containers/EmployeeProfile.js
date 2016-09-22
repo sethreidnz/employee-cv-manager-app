@@ -13,7 +13,7 @@ import { EmployeeDetails, EmployeeDetailsEdit, KeySkills, RecentProjects } from 
 import {
   selectEmployee,
   updateEmployee,
-  selectEmployeeProfileFromState,
+  getSelectedEmployeeFromState,
   getSelectedEmployeeId,
   employeeProfileHasError,
   employeeProfileHasLoaded,
@@ -47,8 +47,8 @@ class EmployeeProfile extends Component {
     selectEmployee(employeeId)
   }
   componentWillReceiveProps = (nextProps) => {
-    const { selectEmployee, params: { employeeId }, isInvalidated } = nextProps
-    if (isInvalidated) {
+    const { selectEmployee, employee, params: { employeeId } } = nextProps
+    if (employee && employee.isInvalidated) {
       selectEmployee(employeeId)
     }
   }
@@ -118,7 +118,7 @@ class EmployeeProfile extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   selectedEmployeeId : getSelectedEmployeeId(state),
-  employee: selectEmployeeProfileFromState(state),
+  employee: getSelectedEmployeeFromState(state),
   hasLoaded: employeeProfileHasLoaded(state),
   hasError: employeeProfileHasError(state),
   isInvalidated: employeeProfileIsInvalidated(state),

@@ -74,7 +74,8 @@ using as well as customise variables if I want. This can be done in the '_variab
 
 ### Using Redux as a Cache
 
-Employee Profiles...
+If you havea look in `src/Routes/EmployeeProfile/modules/employeeProfile` at how the reducer logic in here works you will find that even though the page
+itself is dealing with a single profile I have cached each one. 
 
 ### Using Local Component State when appropriate
 

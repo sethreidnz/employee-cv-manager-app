@@ -14,7 +14,6 @@ const EMPLOYEE_ERROR_RECEIVED = 'EMPLOYEE_ERROR_RECEIVED'
 const EMPLOYEE_UPDATE_REQUESTED = 'EMPLOYEE_UPDATE_REQUESTED'
 const EMPLOYEE_UPDATE_SUCCEEDED = 'EMPLOYEE_UPDATE_SUCCEEDED'
 const EMPLOYEE_UPDATE_ERROR_RECIEVED = 'EMPLOYEE_UPDATE_ERROR_RECIEVED'
-const EMPLOYEE_PROFILE_INVALIDATED = 'EMPLOYEE_PROFILE_INVALIDATED'
 
 // ------------------------------------
 // Actions
@@ -58,15 +57,10 @@ export const employeeUpdateErrorRecieved = (error) => ({
   error: error
 })
 
-export const employeeProfileInvalidated = (error) => ({
-  type: EMPLOYEE_PROFILE_INVALIDATED,
-  error: error
-})
-
 const shouldFetchEmployee = (state, employeeId) => {
-  const { isFetching, isInvalidated } = state.employeeProfiles
-  const selectedEmployeeInState = selectEmployeeProfileFromState(state) != null
-  const employeeInvalidated = (isInvalidated && !isFetching)
+  const { isFetching } = state.employeeProfiles
+  const selectedEmployeeInState = getSelectedEmployeeFromState(state) != null
+  const employeeInvalidated = (selectedEmployeeInState.isInvalidated && !isFetching)
   const employeeNotInState = (!selectedEmployeeInState && !isFetching)
   return employeeNotInState || employeeInvalidated
 }
@@ -171,12 +165,6 @@ const employeeRecievedHandler = (state, action) => {
   })
 }
 
-const employeeProfileInvalidatedHandler = (state, action) => {
-  return Object.assign({}, state, {
-    isInvalidated: true
-  })
-}
-
 const employeeUpdateRequestedHandler = (state, action) => {
   return Object.assign({}, state, {
     isFetching: true
@@ -184,7 +172,20 @@ const employeeUpdateRequestedHandler = (state, action) => {
 }
 
 const employeeUpdateSuccessHandler = (state, action) => {
+  const employeeProfiles = state.items
+  const updatedEmployeeIndex = employeeProfiles.findIndex((employee) => {
+    return employee.id === action.updatedEmployeeId
+  })
+  const updatedEmployee = Object.assign({}, employeeProfiles[updatedEmployeeIndex], {
+    isInvalidated: true
+  })
+  const newEmployeeList = [
+    ...employeeProfiles.slice(0, updatedEmployeeIndex),
+    updatedEmployee,
+    ...employeeProfiles.slice(updatedEmployeeIndex + 1, employeeProfiles.length)
+  ]
   return Object.assign({}, state, {
+    items: newEmployeeList,
     isFetching: false,
     isInvalidated: true,
     hasLoaded: false,
@@ -195,7 +196,6 @@ const employeeUpdateSuccessHandler = (state, action) => {
 const employeeUpdateErrorHandler = (state, action) => {
   return Object.assign({}, state, {
     isFetching: false,
-    isInvalidated: false,
     hasLoaded: true,
     hasError: true,
     error: action.error
@@ -208,7 +208,6 @@ const ACTION_HANDLERS = {
   [EMPLOYEE_REQUEST_ABORTED]: employeeRequestAbortedHandler,
   [EMPLOYEE_RECEIVED] : employeeRecievedHandler,
   [EMPLOYEE_ERROR_RECEIVED] : employeeErrorReceivedHandler,
-  [EMPLOYEE_PROFILE_INVALIDATED]: employeeProfileInvalidatedHandler,
   [EMPLOYEE_UPDATE_REQUESTED] : employeeUpdateRequestedHandler,
   [EMPLOYEE_UPDATE_SUCCEEDED] : employeeUpdateSuccessHandler,
   [EMPLOYEE_UPDATE_ERROR_RECIEVED] : employeeUpdateErrorHandler
@@ -225,7 +224,7 @@ export const employeeProfileError = (state) => state.employeeProfiles.error
 export const employeeEditModeIsEnabled = (state) => state.employeeProfiles.editModeEnabled
 export const employeeProfileIsInvalidated = (state) => state.employeeProfiles.isInvalidated
 
-export const selectEmployeeProfileFromState = createSelector(
+export const getSelectedEmployeeFromState = createSelector(
   selectEmployeeProfiles,
   getSelectedEmployeeId,
   (profiles, selectedEmployeeId) => {
@@ -242,7 +241,6 @@ export const selectEmployeeProfileFromState = createSelector(
 const initialState = {
   items: [],
   selectedEmployeeId: null,
-  isInvalidated: false,
   hasLoaded: false,
   isFetching: false,
   hasError: false,
