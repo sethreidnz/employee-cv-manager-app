@@ -48,7 +48,6 @@ class EmployeeProfile extends Component {
   }
   componentWillReceiveProps = (nextProps) => {
     const { selectEmployee, params: { employeeId }, isInvalidated } = nextProps
-    debugger
     if (isInvalidated) {
       selectEmployee(employeeId)
     }

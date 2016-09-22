@@ -63,12 +63,12 @@ export const employeeProfileInvalidated = (error) => ({
   error: error
 })
 
-const shouldFetchEmployee = (state) => {
+const shouldFetchEmployee = (state, employeeId) => {
   const { isFetching, isInvalidated } = state.employeeProfiles
   const selectedEmployeeInState = selectEmployeeProfileFromState(state) != null
-  const employeeHasBeenInvalidated = (isInvalidated && !isFetching)
-  const noEmployeeFound = (!selectedEmployeeInState && !isFetching)
-  return noEmployeeFound || employeeHasBeenInvalidated
+  const employeeInvalidated = (isInvalidated && !isFetching)
+  const employeeNotInState = (!selectedEmployeeInState && !isFetching)
+  return employeeNotInState || employeeInvalidated
 }
 
 export const selectEmployee = (employeeId) => {
@@ -92,7 +92,6 @@ export const updateEmployee = (updatedEmployee) => {
     return putEmployee(updatedEmployee).then(
             (employee) => {
               dispatch(employeesInvalidated())
-              dispatch(employeeProfileInvalidated())
               dispatch(employeeUpdateSucceeded(employee))
             },
             (error) => dispatch(employeeUpdateErrorRecieved(error))
@@ -179,13 +178,41 @@ const employeeProfileInvalidatedHandler = (state, action) => {
   })
 }
 
+const employeeUpdateRequestedHandler = (state, action) => {
+  return Object.assign({}, state, {
+    isFetching: true
+  })
+}
+
+const employeeUpdateSuccessHandler = (state, action) => {
+  return Object.assign({}, state, {
+    isFetching: false,
+    isInvalidated: true,
+    hasLoaded: false,
+    selectedEmployeeId: action.updatedEmployeeId
+  })
+}
+
+const employeeUpdateErrorHandler = (state, action) => {
+  return Object.assign({}, state, {
+    isFetching: false,
+    isInvalidated: false,
+    hasLoaded: true,
+    hasError: true,
+    error: action.error
+  })
+}
+
 const ACTION_HANDLERS = {
   [EMPLOYEE_SELECTED] : employeeSelectedHandler,
   [EMPLOYEE_REQUESTED]: employeeRequestedHandler,
   [EMPLOYEE_REQUEST_ABORTED]: employeeRequestAbortedHandler,
   [EMPLOYEE_RECEIVED] : employeeRecievedHandler,
   [EMPLOYEE_ERROR_RECEIVED] : employeeSelectedErrorHandler,
-  [EMPLOYEE_PROFILE_INVALIDATED]: employeeProfileInvalidatedHandler
+  [EMPLOYEE_PROFILE_INVALIDATED]: employeeProfileInvalidatedHandler,
+  [EMPLOYEE_UPDATE_REQUESTED] : employeeUpdateRequestedHandler,
+  [EMPLOYEE_UPDATE_SUCCEEDED] : employeeUpdateSuccessHandler,
+  [EMPLOYEE_UPDATE_ERROR_RECIEVED] : employeeUpdateErrorHandler
 }
 
 // ------------------------------------
